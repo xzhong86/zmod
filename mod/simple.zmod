@@ -1,0 +1,58 @@
+
+module Mread
+       input clk, rst, i_stall;
+       output o_a:32, o_b:32, o_op:32;
+
+       mainLogic @ (posedge clk or rst);
+
+endmodule
+
+module Exec
+       input clk, rst;
+       input i_a:32, i_b:32, i_op:32;
+       output o_x, i_stall;
+
+       mainLogic @ (posedge clk or rst);
+
+endmodule
+
+module Mwrite
+       input clk, rst;
+       input i_x:32, i_stall;
+
+       mainLogic @ (posedge clk or rst);
+
+endmodule
+
+module top
+       input clk, rst;
+       pipereg a, b, x;
+       wire stall;
+
+       instance Mread mread (
+       		clk <= clk,
+       		rst <= rst,
+		i_stall <= stall,
+		o_a => a,
+		o_b => b,
+		o_x => x,
+	);
+
+       instance Exec exec (
+       		clk <= clk,
+		rst <= rst,
+		i_a <= a,
+		i_b <= b,
+		i_op <= op,
+		o_stall => stall,
+		o_x => x,
+       );
+
+       instance Mwrite (
+       		clk <= clk,
+		rst <= rst,
+		i_stall <= stall,
+		i_x <= x,
+       );
+
+endmodule
