@@ -48,7 +48,7 @@ module top
 		o_x => x,
        );
 
-       instance Mwrite (
+       instance Mwrite mwrite (
        		clk <= clk,
 		rst <= rst,
 		i_stall <= stall,
